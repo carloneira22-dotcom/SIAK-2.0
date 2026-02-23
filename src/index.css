@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@media print {
+    .no-print { display: none !important; }
+    body { background: white; padding: 0; font-family: serif; }
+    
+    /* Lógica para aislar la impresión del área seleccionada */
+    #main-wrapper { display: none !important; }
+    #print-area { display: block !important; width: 100%; margin: 0; padding: 0; }
+}
+
+.step-content { display: none; }
+.step-content.active { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Animación de carga para IA */
+.pulse-ia { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
