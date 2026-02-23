@@ -8,6 +8,7 @@ import { StepAnalisis } from './components/StepAnalisis';
 import { StepInforme } from './components/StepInforme';
 import { INITIAL_FORM_DATA, STEPS_INFO } from './constants';
 import { FormData } from './types';
+import { calcularDiasRestantes } from './utils/dateUtils';
 
 export default function App() {
     const [currentStep, setCurrentStep] = useState(0);
@@ -109,6 +110,8 @@ export default function App() {
         setPrintContent(html);
     };
 
+    const diasInfo = calcularDiasRestantes(formData.denuncia.fecha);
+
     return (
         <div className="bg-gray-50 text-gray-800 font-sans min-h-screen p-2 md:p-6">
             {printContent ? (
@@ -121,7 +124,7 @@ export default function App() {
                 </div>
             ) : (
                 <div className="max-w-5xl mx-auto" id="main-wrapper">
-                    <Header />
+                    <Header diasInfo={diasInfo} />
                     <Stepper currentStep={currentStep} />
 
                     <div id="app-container" className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden min-h-[500px] flex flex-col">
