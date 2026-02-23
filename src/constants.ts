@@ -64,6 +64,11 @@ export const STEPS_INFO = [
 
 export const INITIAL_FORM_DATA: FormData = {
     perfil: '',
+    investigador: {
+        nombre: '',
+        rut: '',
+        email: ''
+    },
     denuncia: {
         fecha: '',
         hora: '',

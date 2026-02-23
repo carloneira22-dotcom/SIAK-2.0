@@ -69,7 +69,7 @@ export function StepInforme({ formData, onPrintInforme }: StepInformeProps) {
 
                 <div class="mt-24 flex justify-between px-8">
                     <div class="border-t border-gray-800 pt-2 text-center text-xs w-2/5">
-                        <b>FIRMA INVESTIGADOR/A</b><br>${formData.perfil}
+                        <b>FIRMA INVESTIGADOR/A</b><br>${formData.investigador.nombre}<br>${formData.perfil}
                     </div>
                     <div class="border-t border-gray-800 pt-2 text-center text-xs w-2/5">
                         <b>TOMA DE CONOCIMIENTO</b><br>Director(a) DAEM / Sostenedor

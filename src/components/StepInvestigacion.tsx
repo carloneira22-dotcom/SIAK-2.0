@@ -65,7 +65,7 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
             const html = await redactarCitacion(
                 sujetoActivo.nombre, 
                 tipo, 
-                formData.perfil, 
+                formData.investigador.nombre, 
                 formData.investigacion.fechaCitacion, 
                 formData.investigacion.horaCitacion, 
                 formData.investigacion.lugarCitacion,
@@ -88,7 +88,8 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                         <div class="mt-24 flex justify-between px-10">
                             <div class="text-center text-xs w-full">
                                 <p>____________________________________</p>
-                                <p class="mt-2"><b>${formData.perfil}</b></p>
+                                <p class="mt-2"><b>${formData.investigador.nombre}</b></p>
+                                <p>${formData.perfil}</p>
                                 <p>Investigador/a Designado/a DAEM Cañete</p>
                             </div>
                         </div>
@@ -114,7 +115,7 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                 formData.victima.rut,
                 formData.victima.establecimiento,
                 formData.hechos.tipo || 'Denuncia Ley Karin',
-                formData.perfil
+                formData.investigador.nombre
             );
             if (html) {
                 const htmlImprimir = `
@@ -133,7 +134,8 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                         <div class="mt-24 flex justify-between px-10">
                             <div class="text-center text-xs w-full">
                                 <p>____________________________________</p>
-                                <p class="mt-2"><b>${formData.perfil}</b></p>
+                                <p class="mt-2"><b>${formData.investigador.nombre}</b></p>
+                                <p>${formData.perfil}</p>
                                 <p>Investigador/a Designado/a DAEM Cañete</p>
                             </div>
                         </div>
@@ -176,7 +178,7 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                 sujetoRol,
                 formData.investigacion.separacionNuevoEspacio,
                 formData.investigacion.separacionNuevaFuncion,
-                formData.perfil
+                formData.investigador.nombre
             );
             
             if (html) {
@@ -196,7 +198,8 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                         <div class="mt-24 flex justify-between px-10">
                             <div class="text-center text-xs w-full">
                                 <p>____________________________________</p>
-                                <p class="mt-2"><b>${formData.perfil}</b></p>
+                                <p class="mt-2"><b>${formData.investigador.nombre}</b></p>
+                                <p>${formData.perfil}</p>
                                 <p>Investigador/a Designado/a DAEM Cañete</p>
                             </div>
                         </div>

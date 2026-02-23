@@ -6,6 +6,11 @@ export interface Funcionario {
 
 export interface FormData {
   perfil: string;
+  investigador: {
+    nombre: string;
+    rut: string;
+    email: string;
+  };
   denuncia: {
     fecha: string;
     hora: string;

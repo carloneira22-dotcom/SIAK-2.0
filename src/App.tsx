@@ -19,7 +19,12 @@ export default function App() {
     useEffect(() => {
         const checkValidation = () => {
             let valid = true;
-            if (currentStep === 0) valid = formData.perfil !== '';
+            if (currentStep === 0) {
+                valid = formData.perfil !== '' && 
+                        formData.investigador.nombre.trim() !== '' && 
+                        formData.investigador.rut.trim() !== '' && 
+                        formData.investigador.email.trim() !== '';
+            }
             if (currentStep === 1) {
                 valid = formData.victima.nombre !== '' &&
                         formData.victima.rut !== '' &&
@@ -82,7 +87,7 @@ export default function App() {
                 <div class="mb-8 text-sm space-y-2 border p-4 bg-slate-50 mt-6">
                     <p><b>FECHA DE DILIGENCIA:</b> ${new Date().toLocaleDateString()}</p>
                     <p><b>TESTIGO / DECLARANTE:</b> ${nombreTestigo || '_____________________________________________'}</p>
-                    <p><b>INVESTIGADOR A CARGO:</b> ${formData.perfil}</p>
+                    <p><b>INVESTIGADOR A CARGO:</b> ${formData.investigador.nombre} (${formData.perfil})</p>
                     <p><b>MATERIA DENUNCIADA:</b> ${formData.hechos.tipo}</p>
                 </div>
                 
@@ -95,7 +100,7 @@ export default function App() {
 
                 <div class="mt-32 flex justify-between px-10">
                     <div class="border-t border-gray-800 pt-2 text-center text-xs w-2/5">
-                        <b>FIRMA INVESTIGADOR/A</b><br>${formData.perfil}
+                        <b>FIRMA INVESTIGADOR/A</b><br>${formData.investigador.nombre}<br>${formData.perfil}
                     </div>
                     <div class="border-t border-gray-800 pt-2 text-center text-xs w-2/5">
                         <b>FIRMA DECLARANTE</b><br>${nombreTestigo || 'Nombre y RUN'}
