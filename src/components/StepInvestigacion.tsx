@@ -20,8 +20,8 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
     const [errorMessage, setErrorMessage] = useState('');
 
     const sujetos = [
-        { id: 'denunciante', rol: 'Denunciante', nombre: formData.denuncia.quienDenuncia === 'Victima' ? formData.victima.nombre : formData.denuncianteTercero.nombre },
-        { id: 'denunciado', rol: 'Denunciado/a', nombre: formData.denunciado.nombre },
+        { id: 'denunciante', rol: 'Denunciante', nombre: formData.denuncia?.quienDenuncia === 'Victima' ? formData.victima?.nombre : formData.denuncianteTercero?.nombre },
+        { id: 'denunciado', rol: 'Denunciado/a', nombre: formData.denunciado?.nombre },
         ...formData.investigacion.testigos.map((t, i) => ({ id: `testigo-${i}`, rol: 'Testigo', nombre: t }))
     ];
 
@@ -65,7 +65,7 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
             const html = await redactarCitacion(
                 sujetoActivo.nombre, 
                 tipo, 
-                formData.investigador.nombre, 
+                formData.investigador?.nombre || '', 
                 formData.investigacion.fechaCitacion, 
                 formData.investigacion.horaCitacion, 
                 formData.investigacion.lugarCitacion,
@@ -75,7 +75,7 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                 const htmlImprimir = `
                     <div class="p-8 font-serif">
                         <div class="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-6">
-                            <img src="https://placehold.co/150x150/white/black?text=LOGO+DAEM" alt="Logo DAEM" class="h-20 object-contain grayscale">
+                            <img src="/logo.png" onerror="this.onerror=null;this.src='https://placehold.co/150x150/white/black?text=LOGO+DAEM';" alt="Logo DAEM" class="h-20 object-contain grayscale">
                             <div class="text-right">
                                 <p class="text-xs font-bold">REPUBLICA DE CHILE</p>
                                 <p class="text-xs font-bold">DAEM CAÑETE</p>
@@ -111,17 +111,17 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
         setIsGeneratingDerivacion(true);
         try {
             const html = await redactarDerivacionACHS(
-                formData.victima.nombre,
-                formData.victima.rut,
-                formData.victima.establecimiento,
+                formData.victima?.nombre || '',
+                formData.victima?.rut || '',
+                formData.victima?.establecimiento || '',
                 formData.hechos.tipo || 'Denuncia Ley Karin',
-                formData.investigador.nombre
+                formData.investigador?.nombre || ''
             );
             if (html) {
                 const htmlImprimir = `
                     <div class="p-8 font-serif">
                         <div class="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-6">
-                            <img src="https://placehold.co/150x150/white/black?text=LOGO+DAEM" alt="Logo DAEM" class="h-20 object-contain grayscale">
+                            <img src="/logo.png" onerror="this.onerror=null;this.src='https://placehold.co/150x150/white/black?text=LOGO+DAEM';" alt="Logo DAEM" class="h-20 object-contain grayscale">
                             <div class="text-right">
                                 <p class="text-xs font-bold">REPUBLICA DE CHILE</p>
                                 <p class="text-xs font-bold">DAEM CAÑETE</p>
@@ -166,10 +166,10 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
             let sujetoRol = '';
             
             if (formData.investigacion.separacionSujeto === 'Victima') {
-                sujetoNombre = formData.victima.nombre;
+                sujetoNombre = formData.victima?.nombre || '';
                 sujetoRol = 'Víctima / Denunciante';
             } else if (formData.investigacion.separacionSujeto === 'Denunciado') {
-                sujetoNombre = formData.denunciado.nombre;
+                sujetoNombre = formData.denunciado?.nombre || '';
                 sujetoRol = 'Denunciado/a';
             }
 
@@ -178,14 +178,14 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                 sujetoRol,
                 formData.investigacion.separacionNuevoEspacio,
                 formData.investigacion.separacionNuevaFuncion,
-                formData.investigador.nombre
+                formData.investigador?.nombre || ''
             );
             
             if (html) {
                 const htmlImprimir = `
                     <div class="p-8 font-serif">
                         <div class="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-6">
-                            <img src="https://placehold.co/150x150/white/black?text=LOGO+DAEM" alt="Logo DAEM" class="h-20 object-contain grayscale">
+                            <img src="/logo.png" onerror="this.onerror=null;this.src='https://placehold.co/150x150/white/black?text=LOGO+DAEM';" alt="Logo DAEM" class="h-20 object-contain grayscale">
                             <div class="text-right">
                                 <p class="text-xs font-bold">REPUBLICA DE CHILE</p>
                                 <p class="text-xs font-bold">DAEM CAÑETE</p>
@@ -298,12 +298,12 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                         <div className="ml-8 mb-4">
                             <button 
                                 onClick={handleGenerarDerivacion}
-                                disabled={isGeneratingDerivacion || !formData.victima.nombre}
+                                disabled={isGeneratingDerivacion || !formData.victima?.nombre}
                                 className={`bg-rose-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-rose-700 transition-colors shadow-sm flex items-center gap-2 ${isGeneratingDerivacion ? 'opacity-50 cursor-not-allowed pulse-ia' : ''}`}
                             >
                                 ✨ {isGeneratingDerivacion ? 'Redactando derivación...' : 'Generar Oficio de Derivación a Prevención de Riesgos'}
                             </button>
-                            {!formData.victima.nombre && <p className="text-xs text-red-500 mt-1">Debe registrar el nombre de la víctima en el paso anterior.</p>}
+                            {!formData.victima?.nombre && <p className="text-xs text-red-500 mt-1">Debe registrar el nombre de la víctima en el paso anterior.</p>}
                         </div>
                     )}
                     <label className="flex items-center gap-3 p-3 bg-white rounded-lg border cursor-pointer">
@@ -328,8 +328,8 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                                         onChange={(e) => setFormData(prev => ({ ...prev, investigacion: { ...prev.investigacion, separacionSujeto: e.target.value } }))}
                                     >
                                         <option value="">Seleccione...</option>
-                                        <option value="Victima">Víctima: {formData.victima.nombre || 'No registrado'}</option>
-                                        <option value="Denunciado">Denunciado/a: {formData.denunciado.nombre || 'No registrado'}</option>
+                                        <option value="Victima">Víctima: {formData.victima?.nombre || 'No registrado'}</option>
+                                        <option value="Denunciado">Denunciado/a: {formData.denunciado?.nombre || 'No registrado'}</option>
                                     </select>
                                 </div>
                                 

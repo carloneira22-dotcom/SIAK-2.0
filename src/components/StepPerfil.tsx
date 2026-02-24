@@ -13,7 +13,7 @@ export function StepPerfil({ formData, setFormData }: StepPerfilProps) {
             <div className="text-center mb-8">
                 <h2 className="text-2xl font-black text-gray-800">Definición de Competencias</h2>
                 <p className="text-gray-500 mt-2">Identifique su rol y datos personales. Esto ajustará los parámetros legales aplicables según dictámenes de la DT y Superintendencia de Educación.</p>
-                {(!formData.perfil || !formData.investigador.nombre || !formData.investigador.rut || !formData.investigador.email) && (
+                {(!formData.perfil || !formData.investigador?.nombre || !formData.investigador?.rut || !formData.investigador?.email) && (
                     <p className="text-sm text-amber-600 font-bold mt-4 bg-amber-50 inline-block px-4 py-2 rounded-lg border border-amber-200">
                         ⚠️ Debe completar todos los datos del investigador y seleccionar un rol para continuar.
                     </p>
@@ -29,8 +29,8 @@ export function StepPerfil({ formData, setFormData }: StepPerfilProps) {
                             type="text"
                             className="w-full p-2 border rounded-lg mt-1"
                             placeholder="Ej: Juan Pérez González"
-                            value={formData.investigador.nombre}
-                            onChange={(e) => setFormData(prev => ({ ...prev, investigador: { ...prev.investigador, nombre: e.target.value } }))}
+                            value={formData.investigador?.nombre || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, investigador: { ...(prev.investigador || {rut: '', email: ''}), nombre: e.target.value } }))}
                         />
                     </div>
                     <div>
@@ -39,8 +39,8 @@ export function StepPerfil({ formData, setFormData }: StepPerfilProps) {
                             type="text"
                             className="w-full p-2 border rounded-lg mt-1"
                             placeholder="Ej: 12.345.678-9"
-                            value={formData.investigador.rut}
-                            onChange={(e) => setFormData(prev => ({ ...prev, investigador: { ...prev.investigador, rut: e.target.value } }))}
+                            value={formData.investigador?.rut || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, investigador: { ...(prev.investigador || {nombre: '', email: ''}), rut: e.target.value } }))}
                         />
                     </div>
                     <div>
@@ -49,8 +49,8 @@ export function StepPerfil({ formData, setFormData }: StepPerfilProps) {
                             type="email"
                             className="w-full p-2 border rounded-lg mt-1"
                             placeholder="Ej: jperez@daemcanete.cl"
-                            value={formData.investigador.email}
-                            onChange={(e) => setFormData(prev => ({ ...prev, investigador: { ...prev.investigador, email: e.target.value } }))}
+                            value={formData.investigador?.email || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, investigador: { ...(prev.investigador || {nombre: '', rut: ''}), email: e.target.value } }))}
                         />
                     </div>
                 </div>

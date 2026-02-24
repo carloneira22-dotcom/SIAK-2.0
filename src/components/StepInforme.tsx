@@ -15,7 +15,7 @@ export function StepInforme({ formData, onPrintInforme }: StepInformeProps) {
         <div class="p-8 font-serif">
             <div class="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-6">
                 <!-- Logo DAEM para Impresión -->
-                <img src="https://placehold.co/150x150/white/black?text=LOGO+DAEM" alt="Logo DAEM" class="h-20 object-contain grayscale">
+                <img src="/logo.png" onerror="this.onerror=null;this.src='https://placehold.co/150x150/white/black?text=LOGO+DAEM';" alt="Logo DAEM" class="h-20 object-contain grayscale">
                 <div class="text-right">
                     <p class="text-xs font-bold">REPUBLICA DE CHILE</p>
                     <p class="text-xs font-bold">DAEM CAÑETE</p>
@@ -33,9 +33,9 @@ export function StepInforme({ formData, onPrintInforme }: StepInformeProps) {
                 </div>
                 
                 <p class="text-justify leading-relaxed">
-                    Se presenta informe investigativo de la denuncia originada por <b>${formData.denuncia.quienDenuncia === 'Victima' ? formData.victima.nombre : formData.denuncianteTercero.nombre}</b> 
-                    (Víctima: <b>${formData.victima.nombre}</b>), en contra de <b>${formData.denunciado.nombre}</b>, 
-                    regido bajo el marco normativo de <b>${formData.denunciado.calidad}</b>.
+                    Se presenta informe investigativo de la denuncia originada por <b>${formData.denuncia?.quienDenuncia === 'Victima' ? formData.victima?.nombre : formData.denuncianteTercero?.nombre}</b> 
+                    (Víctima: <b>${formData.victima?.nombre}</b>), en contra de <b>${formData.denunciado?.nombre}</b>, 
+                    regido bajo el marco normativo de <b>${formData.denunciado?.calidad}</b>.
                 </p>
 
                 <h3 class="font-bold border-b border-gray-300 pb-1 mt-6 text-lg">I. Medidas de Resguardo</h3>
@@ -69,7 +69,7 @@ export function StepInforme({ formData, onPrintInforme }: StepInformeProps) {
 
                 <div class="mt-24 flex justify-between px-8">
                     <div class="border-t border-gray-800 pt-2 text-center text-xs w-2/5">
-                        <b>FIRMA INVESTIGADOR/A</b><br>${formData.investigador.nombre}<br>${formData.perfil}
+                        <b>FIRMA INVESTIGADOR/A</b><br>${formData.investigador?.nombre || ''}<br>${formData.perfil}
                     </div>
                     <div class="border-t border-gray-800 pt-2 text-center text-xs w-2/5">
                         <b>TOMA DE CONOCIMIENTO</b><br>Director(a) DAEM / Sostenedor

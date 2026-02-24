@@ -75,8 +75,8 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                         <input 
                             type="date"
                             className="w-full p-2 border rounded-lg"
-                            value={formData.denuncia.fecha}
-                            onChange={(e) => setFormData(prev => ({ ...prev, denuncia: { ...prev.denuncia, fecha: e.target.value } }))}
+                            value={formData.denuncia?.fecha || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, denuncia: { ...(prev.denuncia || {hora: '', quienDenuncia: ''}), fecha: e.target.value } }))}
                         />
                     </div>
                     <div>
@@ -84,8 +84,8 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                         <input 
                             type="time"
                             className="w-full p-2 border rounded-lg"
-                            value={formData.denuncia.hora}
-                            onChange={(e) => setFormData(prev => ({ ...prev, denuncia: { ...prev.denuncia, hora: e.target.value } }))}
+                            value={formData.denuncia?.hora || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, denuncia: { ...(prev.denuncia || {fecha: '', quienDenuncia: ''}), hora: e.target.value } }))}
                         />
                     </div>
                 </div>
@@ -115,7 +115,7 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                                 type="radio" 
                                 name="quienDenuncia"
                                 className="w-5 h-5"
-                                checked={formData.denuncia.quienDenuncia === 'Victima'}
+                                checked={formData.denuncia?.quienDenuncia === 'Victima'}
                                 onChange={() => setQuienDenuncia('Victima')}
                             />
                             <span className="text-sm text-gray-700"><b>Víctima</b> (persona en quien recae la acción de violencia en el trabajo, acoso laboral y sexual)</span>
@@ -125,7 +125,7 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                                 type="radio" 
                                 name="quienDenuncia"
                                 className="w-5 h-5"
-                                checked={formData.denuncia.quienDenuncia === 'Tercero'}
+                                checked={formData.denuncia?.quienDenuncia === 'Tercero'}
                                 onChange={() => setQuienDenuncia('Tercero')}
                             />
                             <span className="text-sm text-gray-700"><b>Denunciante:</b> Persona (un tercero) que pone en conocimiento el hecho constitutivo de violencia en el trabajo, acoso laboral y sexual y que NO es víctima de tales acciones.</span>
@@ -151,24 +151,24 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                         <label className="text-xs font-bold text-gray-500 uppercase">Nombre completo</label>
                         <input 
                             className="w-full p-2 border rounded-lg"
-                            value={formData.victima.nombre}
-                            onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...prev.victima, nombre: e.target.value } }))}
+                            value={formData.victima?.nombre || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...(prev.victima || {rut: '', establecimiento: '', funcion: '', telefono: '', email: ''}), nombre: e.target.value } }))}
                         />
                     </div>
                     <div>
                         <label className="text-xs font-bold text-gray-500 uppercase">Cédula de Identidad</label>
                         <input 
                             className="w-full p-2 border rounded-lg"
-                            value={formData.victima.rut}
-                            onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...prev.victima, rut: e.target.value } }))}
+                            value={formData.victima?.rut || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...(prev.victima || {nombre: '', establecimiento: '', funcion: '', telefono: '', email: ''}), rut: e.target.value } }))}
                         />
                     </div>
                     <div className="md:col-span-2">
                         <label className="text-xs font-bold text-gray-500 uppercase">Unidad, programa o establecimiento educacional de desempeño</label>
                         <select 
                             className="w-full p-2 border rounded-lg"
-                            value={formData.victima.establecimiento}
-                            onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...prev.victima, establecimiento: e.target.value } }))}
+                            value={formData.victima?.establecimiento || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...(prev.victima || {nombre: '', rut: '', funcion: '', telefono: '', email: ''}), establecimiento: e.target.value } }))}
                         >
                             <option value="">Seleccione...</option>
                             {ESTABLECIMIENTOS.map(e => <option key={e} value={e}>{e}</option>)}
@@ -178,8 +178,8 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                         <label className="text-xs font-bold text-gray-500 uppercase">Función que desempeña</label>
                         <input 
                             className="w-full p-2 border rounded-lg"
-                            value={formData.victima.funcion}
-                            onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...prev.victima, funcion: e.target.value } }))}
+                            value={formData.victima?.funcion || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...(prev.victima || {nombre: '', rut: '', establecimiento: '', telefono: '', email: ''}), funcion: e.target.value } }))}
                         />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -187,8 +187,8 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                             <label className="text-xs font-bold text-gray-500 uppercase">Teléfono</label>
                             <input 
                                 className="w-full p-2 border rounded-lg"
-                                value={formData.victima.telefono}
-                                onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...prev.victima, telefono: e.target.value } }))}
+                                value={formData.victima?.telefono || ''}
+                                onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...(prev.victima || {nombre: '', rut: '', establecimiento: '', funcion: '', email: ''}), telefono: e.target.value } }))}
                             />
                         </div>
                         <div>
@@ -196,14 +196,14 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                             <input 
                                 type="email"
                                 className="w-full p-2 border rounded-lg"
-                                value={formData.victima.email}
-                                onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...prev.victima, email: e.target.value } }))}
+                                value={formData.victima?.email || ''}
+                                onChange={(e) => setFormData(prev => ({ ...prev, victima: { ...(prev.victima || {nombre: '', rut: '', establecimiento: '', funcion: '', telefono: ''}), email: e.target.value } }))}
                             />
                         </div>
                     </div>
                 </div>
 
-                {formData.denuncia.quienDenuncia === 'Tercero' && (
+                {formData.denuncia?.quienDenuncia === 'Tercero' && (
                     <>
                         <h4 className="font-black text-gray-800 mb-4 border-b pb-2 mt-8">Datos personales del/a denunciante</h4>
                         <p className="text-xs text-gray-500 mb-4">(Solo en caso de que el denunciante no sea la víctima)</p>
@@ -224,24 +224,24 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                                 <label className="text-xs font-bold text-gray-500 uppercase">Nombre completo</label>
                                 <input 
                                     className="w-full p-2 border rounded-lg"
-                                    value={formData.denuncianteTercero.nombre}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, denuncianteTercero: { ...prev.denuncianteTercero, nombre: e.target.value } }))}
+                                    value={formData.denuncianteTercero?.nombre || ''}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, denuncianteTercero: { ...(prev.denuncianteTercero || {funcion: '', establecimiento: ''}), nombre: e.target.value } }))}
                                 />
                             </div>
                             <div>
                                 <label className="text-xs font-bold text-gray-500 uppercase">Función que desempeña</label>
                                 <input 
                                     className="w-full p-2 border rounded-lg"
-                                    value={formData.denuncianteTercero.funcion}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, denuncianteTercero: { ...prev.denuncianteTercero, funcion: e.target.value } }))}
+                                    value={formData.denuncianteTercero?.funcion || ''}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, denuncianteTercero: { ...(prev.denuncianteTercero || {nombre: '', establecimiento: ''}), funcion: e.target.value } }))}
                                 />
                             </div>
                             <div className="md:col-span-2">
                                 <label className="text-xs font-bold text-gray-500 uppercase">Unidad, programa o establecimiento educacional de desempeño</label>
                                 <select 
                                     className="w-full p-2 border rounded-lg"
-                                    value={formData.denuncianteTercero.establecimiento}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, denuncianteTercero: { ...prev.denuncianteTercero, establecimiento: e.target.value } }))}
+                                    value={formData.denuncianteTercero?.establecimiento || ''}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, denuncianteTercero: { ...(prev.denuncianteTercero || {nombre: '', funcion: ''}), establecimiento: e.target.value } }))}
                                 >
                                     <option value="">Seleccione...</option>
                                     {ESTABLECIMIENTOS.map(e => <option key={e} value={e}>{e}</option>)}
@@ -269,24 +269,24 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                         <label className="text-xs font-bold text-gray-500 uppercase">Nombre completo</label>
                         <input 
                             className="w-full p-2 border rounded-lg"
-                            value={formData.denunciado.nombre}
-                            onChange={(e) => setFormData(prev => ({ ...prev, denunciado: { ...prev.denunciado, nombre: e.target.value } }))}
+                            value={formData.denunciado?.nombre || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, denunciado: { ...(prev.denunciado || {funcion: '', establecimiento: '', relacion: '', calidad: ''}), nombre: e.target.value } }))}
                         />
                     </div>
                     <div>
                         <label className="text-xs font-bold text-gray-500 uppercase">Función que desempeña</label>
                         <input 
                             className="w-full p-2 border rounded-lg"
-                            value={formData.denunciado.funcion}
-                            onChange={(e) => setFormData(prev => ({ ...prev, denunciado: { ...prev.denunciado, funcion: e.target.value } }))}
+                            value={formData.denunciado?.funcion || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, denunciado: { ...(prev.denunciado || {nombre: '', establecimiento: '', relacion: '', calidad: ''}), funcion: e.target.value } }))}
                         />
                     </div>
                     <div className="md:col-span-2">
                         <label className="text-xs font-bold text-gray-500 uppercase">Unidad, programa o establecimiento educacional de desempeño</label>
                         <select 
                             className="w-full p-2 border rounded-lg"
-                            value={formData.denunciado.establecimiento}
-                            onChange={(e) => setFormData(prev => ({ ...prev, denunciado: { ...prev.denunciado, establecimiento: e.target.value } }))}
+                            value={formData.denunciado?.establecimiento || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, denunciado: { ...(prev.denunciado || {nombre: '', funcion: '', relacion: '', calidad: ''}), establecimiento: e.target.value } }))}
                         >
                             <option value="">Seleccione...</option>
                             {ESTABLECIMIENTOS.map(e => <option key={e} value={e}>{e}</option>)}
@@ -296,8 +296,8 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                         <label className="text-xs font-bold text-gray-500 uppercase">Relación Jerárquica (Uso Interno SIAK)</label>
                         <select 
                             className="w-full p-2 border rounded-lg"
-                            value={formData.denunciado.relacion}
-                            onChange={(e) => setFormData(prev => ({ ...prev, denunciado: { ...prev.denunciado, relacion: e.target.value } }))}
+                            value={formData.denunciado?.relacion || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, denunciado: { ...(prev.denunciado || {nombre: '', funcion: '', establecimiento: '', calidad: ''}), relacion: e.target.value } }))}
                         >
                             <option value="">Seleccione...</option>
                             <option>Superior Jerárquico</option>
@@ -310,8 +310,8 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                         <label className="text-xs font-bold text-gray-500 uppercase">Estatuto que lo rige (Uso Interno SIAK)</label>
                         <select 
                             className="w-full p-2 border-2 border-blue-400 rounded-lg"
-                            value={formData.denunciado.calidad}
-                            onChange={(e) => setFormData(prev => ({ ...prev, denunciado: { ...prev.denunciado, calidad: e.target.value } }))}
+                            value={formData.denunciado?.calidad || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, denunciado: { ...(prev.denunciado || {nombre: '', funcion: '', establecimiento: '', relacion: ''}), calidad: e.target.value } }))}
                         >
                             <option value="">Seleccione...</option>
                             {CALIDADES.map(c => <option key={c} value={c}>{c}</option>)}

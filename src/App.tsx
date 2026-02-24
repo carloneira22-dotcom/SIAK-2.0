@@ -21,17 +21,17 @@ export default function App() {
             let valid = true;
             if (currentStep === 0) {
                 valid = formData.perfil !== '' && 
-                        formData.investigador.nombre.trim() !== '' && 
-                        formData.investigador.rut.trim() !== '' && 
-                        formData.investigador.email.trim() !== '';
+                        (formData.investigador?.nombre || '').trim() !== '' && 
+                        (formData.investigador?.rut || '').trim() !== '' && 
+                        (formData.investigador?.email || '').trim() !== '';
             }
             if (currentStep === 1) {
-                valid = formData.victima.nombre !== '' &&
-                        formData.victima.rut !== '' &&
-                        formData.denunciado.nombre !== '' &&
-                        formData.denunciado.calidad !== '' &&
-                        formData.hechos.tipo !== '' &&
-                        formData.denuncia.quienDenuncia !== '';
+                valid = (formData.victima?.nombre || '') !== '' &&
+                        (formData.victima?.rut || '') !== '' &&
+                        (formData.denunciado?.nombre || '') !== '' &&
+                        (formData.denunciado?.calidad || '') !== '' &&
+                        (formData.hechos?.tipo || '') !== '' &&
+                        (formData.denuncia?.quienDenuncia || '') !== '';
             }
             setIsValid(valid);
         };
@@ -74,7 +74,7 @@ export default function App() {
         const html = `
             <div class="p-8 font-serif">
                 <div class="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-6">
-                    <img src="https://placehold.co/150x150/white/black?text=LOGO+DAEM" alt="Logo DAEM" class="h-20 object-contain grayscale">
+                    <img src="/logo.png" onerror="this.onerror=null;this.src='https://placehold.co/150x150/white/black?text=LOGO+DAEM';" alt="Logo DAEM" class="h-20 object-contain grayscale">
                     <div class="text-right">
                         <p class="text-xs font-bold">REPUBLICA DE CHILE</p>
                         <p class="text-xs font-bold">DAEM CAÑETE</p>
@@ -87,7 +87,7 @@ export default function App() {
                 <div class="mb-8 text-sm space-y-2 border p-4 bg-slate-50 mt-6">
                     <p><b>FECHA DE DILIGENCIA:</b> ${new Date().toLocaleDateString()}</p>
                     <p><b>TESTIGO / DECLARANTE:</b> ${nombreTestigo || '_____________________________________________'}</p>
-                    <p><b>INVESTIGADOR A CARGO:</b> ${formData.investigador.nombre} (${formData.perfil})</p>
+                    <p><b>INVESTIGADOR A CARGO:</b> ${formData.investigador?.nombre || ''} (${formData.perfil})</p>
                     <p><b>MATERIA DENUNCIADA:</b> ${formData.hechos.tipo}</p>
                 </div>
                 
@@ -100,7 +100,7 @@ export default function App() {
 
                 <div class="mt-32 flex justify-between px-10">
                     <div class="border-t border-gray-800 pt-2 text-center text-xs w-2/5">
-                        <b>FIRMA INVESTIGADOR/A</b><br>${formData.investigador.nombre}<br>${formData.perfil}
+                        <b>FIRMA INVESTIGADOR/A</b><br>${formData.investigador?.nombre || ''}<br>${formData.perfil}
                     </div>
                     <div class="border-t border-gray-800 pt-2 text-center text-xs w-2/5">
                         <b>FIRMA DECLARANTE</b><br>${nombreTestigo || 'Nombre y RUN'}
@@ -115,7 +115,7 @@ export default function App() {
         setPrintContent(html);
     };
 
-    const diasInfo = calcularDiasRestantes(formData.denuncia.fecha);
+    const diasInfo = calcularDiasRestantes(formData.denuncia?.fecha || '');
 
     return (
         <div className="bg-gray-50 text-gray-800 font-sans min-h-screen p-2 md:p-6">

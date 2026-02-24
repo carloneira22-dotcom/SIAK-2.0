@@ -82,7 +82,7 @@ export function StepAnalisis({ formData, setFormData }: StepAnalisisProps) {
         }
     };
 
-    const calidad = formData.denunciado.calidad;
+    const calidad = formData.denunciado?.calidad || '';
     let activeSelectId = null;
     if(calidad.includes("Docente")) activeSelectId = 'sancion-docente';
     else if(calidad.includes("Trabajo")) activeSelectId = 'sancion-codigo';
