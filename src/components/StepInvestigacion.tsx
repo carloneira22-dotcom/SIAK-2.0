@@ -76,22 +76,28 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                     <div class="p-8 font-serif">
                         <div class="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-6">
                             <img src="/logo.png" onerror="this.onerror=null;this.src='https://placehold.co/150x150/white/black?text=LOGO+DAEM';" alt="Logo DAEM" class="h-20 object-contain grayscale">
-                            <div class="text-right">
-                                <p class="text-xs font-bold">REPUBLICA DE CHILE</p>
-                                <p class="text-xs font-bold">DAEM CAÑETE</p>
-                            </div>
+                        </div>
+                        <div class="text-right mb-8">
+                            <p class="font-bold">CAÑETE, ${new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                        </div>
+                        <div class="mb-8">
+                            <p><b>A :</b> ${sujetoActivo.nombre}</p>
+                            <p><b>DE :</b> ${formData.investigador.nombre}</p>
+                            <hr class="border-t border-black mt-2">
                         </div>
                         <h2 class="text-xl font-black uppercase mt-4 text-center mb-8">Citación Oficial a Entrevista Investigativa</h2>
                         <div class="text-justify leading-relaxed text-sm">
                             ${html}
                         </div>
-                        <div class="mt-24 flex justify-between px-10">
-                            <div class="text-center text-xs w-full">
-                                <p>____________________________________</p>
-                                <p class="mt-2"><b>${formData.investigador.nombre}</b></p>
-                                <p>${formData.perfil}</p>
-                                <p>Investigador/a Designado/a DAEM Cañete</p>
-                            </div>
+                        <div class="mt-24 flex h-2 w-full">
+                            <div class="bg-green-500 w-1/3"></div>
+                            <div class="bg-orange-400 w-1/3"></div>
+                            <div class="bg-blue-500 w-1/3"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] mt-1 text-gray-600">
+                            <span>Arturo Prat 220, 3er. Piso</span>
+                            <span>Fono 41 2758600</span>
+                            <span>direccion@daemcanete.cl</span>
                         </div>
                     </div>
                 `;
@@ -122,22 +128,36 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                     <div class="p-8 font-serif">
                         <div class="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-6">
                             <img src="/logo.png" onerror="this.onerror=null;this.src='https://placehold.co/150x150/white/black?text=LOGO+DAEM';" alt="Logo DAEM" class="h-20 object-contain grayscale">
-                            <div class="text-right">
-                                <p class="text-xs font-bold">REPUBLICA DE CHILE</p>
-                                <p class="text-xs font-bold">DAEM CAÑETE</p>
-                            </div>
+                        </div>
+                        <div class="text-right mb-8">
+                            <p class="font-bold">CAÑETE, ${new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                        </div>
+                        <div class="mb-8">
+                            <p><b>A :</b> Unidad de Prevención de Riesgos ACHS/MUTUAL</p>
+                            <p><b>DE :</b> ${formData.investigador.nombre}</p>
+                            <hr class="border-t border-black mt-2">
                         </div>
                         <h2 class="text-xl font-black uppercase mt-4 text-center mb-8">Derivación a Unidad de Prevención de Riesgos</h2>
                         <div class="text-justify leading-relaxed text-sm">
                             ${html}
                         </div>
-                        <div class="mt-24 flex justify-between px-10">
-                            <div class="text-center text-xs w-full">
-                                <p>____________________________________</p>
-                                <p class="mt-2"><b>${formData.investigador.nombre}</b></p>
-                                <p>${formData.perfil}</p>
-                                <p>Investigador/a Designado/a DAEM Cañete</p>
-                            </div>
+                        <div class="mt-24 text-xs">
+                            <p class="font-bold">DISTRIBUCIÓN:</p>
+                            <p>- Unidad de Personal</p>
+                            <p>- Partes</p>
+                            <p>- La indicada</p>
+                            <p>- Archivo</p>
+                            <p class="mt-4 font-bold">ID DOC: ${Math.floor(Math.random() * 10000000)}</p>
+                        </div>
+                        <div class="mt-12 flex h-2 w-full">
+                            <div class="bg-green-500 w-1/3"></div>
+                            <div class="bg-orange-400 w-1/3"></div>
+                            <div class="bg-blue-500 w-1/3"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] mt-1 text-gray-600">
+                            <span>Arturo Prat 220, 3er. Piso</span>
+                            <span>Fono 41 2758600</span>
+                            <span>direccion@daemcanete.cl</span>
                         </div>
                     </div>
                 `;
@@ -186,22 +206,36 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                     <div class="p-8 font-serif">
                         <div class="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-6">
                             <img src="/logo.png" onerror="this.onerror=null;this.src='https://placehold.co/150x150/white/black?text=LOGO+DAEM';" alt="Logo DAEM" class="h-20 object-contain grayscale">
-                            <div class="text-right">
-                                <p class="text-xs font-bold">REPUBLICA DE CHILE</p>
-                                <p class="text-xs font-bold">DAEM CAÑETE</p>
-                            </div>
+                        </div>
+                        <div class="text-right mb-8">
+                            <p class="font-bold">CAÑETE, ${new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                        </div>
+                        <div class="mb-8">
+                            <p><b>A :</b> Director DAEM y Jefe de Personal</p>
+                            <p><b>DE :</b> ${formData.investigador.nombre}</p>
+                            <hr class="border-t border-black mt-2">
                         </div>
                         <h2 class="text-xl font-black uppercase mt-4 text-center mb-8">Oficio de Medida de Resguardo: Separación de Espacios y Funciones</h2>
                         <div class="text-justify leading-relaxed text-sm">
                             ${html}
                         </div>
-                        <div class="mt-24 flex justify-between px-10">
-                            <div class="text-center text-xs w-full">
-                                <p>____________________________________</p>
-                                <p class="mt-2"><b>${formData.investigador.nombre}</b></p>
-                                <p>${formData.perfil}</p>
-                                <p>Investigador/a Designado/a DAEM Cañete</p>
-                            </div>
+                        <div class="mt-24 text-xs">
+                            <p class="font-bold">DISTRIBUCIÓN:</p>
+                            <p>- Unidad de Personal</p>
+                            <p>- Partes</p>
+                            <p>- La indicada</p>
+                            <p>- Archivo</p>
+                            <p class="mt-4 font-bold">ID DOC: ${Math.floor(Math.random() * 10000000)}</p>
+                        </div>
+                        <div class="mt-12 flex h-2 w-full">
+                            <div class="bg-green-500 w-1/3"></div>
+                            <div class="bg-orange-400 w-1/3"></div>
+                            <div class="bg-blue-500 w-1/3"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] mt-1 text-gray-600">
+                            <span>Arturo Prat 220, 3er. Piso</span>
+                            <span>Fono 41 2758600</span>
+                            <span>direccion@daemcanete.cl</span>
                         </div>
                     </div>
                 `;

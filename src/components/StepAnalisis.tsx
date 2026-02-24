@@ -57,11 +57,11 @@ export function StepAnalisis({ formData, setFormData }: StepAnalisisProps) {
         try {
             const { conclusion, fundamentacion } = await analizarCaso(tipo, relato, entrevistasParaAnalisis);
             
-            const conclusionValida = ["Conducta Acreditada", "Conducta No Acreditada", "Antecedentes Insuficientes"].includes(conclusion) ? conclusion : "Antecedentes Insuficientes";
-            
             let medidaSugerida = "";
+            let conclusionValida = ["Conducta Acreditada", "Conducta No Acreditada", "Antecedentes Insuficientes"].includes(conclusion) ? conclusion : "Antecedentes Insuficientes";
+            
             if (conclusionValida === "Conducta Acreditada") {
-                medidaSugerida = "Solicitar al Sr. Alcalde instrucción de Investigación Sumaria / Sumario Administrativo";
+                medidaSugerida = "Amonestación Escrita";
             } else {
                 medidaSugerida = "Desestimar denuncia por falta de mérito";
             }
@@ -152,7 +152,6 @@ export function StepAnalisis({ formData, setFormData }: StepAnalisisProps) {
                             onChange={(e) => setFormData(prev => ({ ...prev, analisis: { ...prev.analisis, medidaPropuesta: e.target.value } }))}
                         >
                             <option value="">Seleccione sanción (Ley 19.070)...</option>
-                            <option>Solicitar al Sr. Alcalde instrucción de Investigación Sumaria / Sumario Administrativo</option>
                             <option>Amonestación Escrita</option><option>Censura</option><option>Suspensión de Funciones</option><option>Destitución</option>
                             <option>Desestimar denuncia por falta de mérito</option>
                         </select>
@@ -165,7 +164,6 @@ export function StepAnalisis({ formData, setFormData }: StepAnalisisProps) {
                             onChange={(e) => setFormData(prev => ({ ...prev, analisis: { ...prev.analisis, medidaPropuesta: e.target.value } }))}
                         >
                             <option value="">Seleccione sanción (DFL 1)...</option>
-                            <option>Solicitar al Sr. Alcalde instrucción de Investigación Sumaria / Sumario Administrativo</option>
                             <option>Amonestación Escrita (Copia a DT)</option><option>Multa (Hasta 25% remuneración)</option><option>Despido (Art. 160 N°1)</option>
                             <option>Desestimar denuncia por falta de mérito</option>
                         </select>
@@ -178,7 +176,6 @@ export function StepAnalisis({ formData, setFormData }: StepAnalisisProps) {
                             onChange={(e) => setFormData(prev => ({ ...prev, analisis: { ...prev.analisis, medidaPropuesta: e.target.value } }))}
                         >
                             <option value="">Seleccione sanción (Ley 18.883)...</option>
-                            <option>Solicitar al Sr. Alcalde instrucción de Investigación Sumaria / Sumario Administrativo</option>
                             <option>Censura</option><option>Multa (5% al 20%)</option><option>Suspensión del empleo</option><option>Destitución</option>
                             <option>Desestimar denuncia por falta de mérito</option>
                         </select>
@@ -191,7 +188,6 @@ export function StepAnalisis({ formData, setFormData }: StepAnalisisProps) {
                             onChange={(e) => setFormData(prev => ({ ...prev, analisis: { ...prev.analisis, medidaPropuesta: e.target.value } }))}
                         >
                             <option value="">Seleccione sanción...</option>
-                            <option>Solicitar al Sr. Alcalde instrucción de Investigación Sumaria / Sumario Administrativo</option>
                             <option>Término anticipado de contrato</option><option>Amonestación</option>
                             <option>Desestimar denuncia por falta de mérito</option>
                         </select>
@@ -201,6 +197,51 @@ export function StepAnalisis({ formData, setFormData }: StepAnalisisProps) {
                         <b>⚠️ Principio de Proporcionalidad:</b> SIAK formula una propuesta técnica basada en la ley. La sanción final es facultad privativa del Sostenedor, quien debe considerar atenuantes y agravantes.
                     </div>
                 </div>
+            </div>
+
+            <div className="mt-8 p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
+                <h4 className="font-bold text-gray-700 border-b pb-2 mb-4">3. Solicitud de Investigación Sumaria</h4>
+                <div className="flex items-center gap-3">
+                    <input 
+                        type="checkbox" 
+                        id="solicitudSumaria" 
+                        className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                        checked={formData.analisis.solicitudSumaria || false}
+                        onChange={(e) => {
+                            const checked = e.target.checked;
+                            setFormData(prev => {
+                                let newTexto = prev.analisis.textoSumario;
+                                if (checked && !newTexto) {
+                                    newTexto = `MATERIA: Solicita Instrucción de Investigación Sumaria / Sumario Administrativo.\n\nA: DON JORGE RADONICH BARRA\nALCALDE DE LA ILUSTRE MUNICIPALIDAD DE CAÑETE\n\nDE: ${prev.investigador?.nombre || '_________________'}\n${prev.perfil || '_________________'}\n\nJunto con saludar cordialmente, y en atención a los antecedentes recabados en el marco de la denuncia por ${prev.hechos.tipo || 'Ley Karin'} presentada con fecha ${prev.denuncia.fecha || '___________'}, vengo en solicitar a Ud. la instrucción de un proceso disciplinario (Investigación Sumaria o Sumario Administrativo) en contra de don/doña ${prev.denunciado?.nombre || '_________________'}, quien se desempeña en ${prev.denunciado?.establecimiento || '_________________'}.\n\nLo anterior se fundamenta en los siguientes antecedentes y síntesis probatoria obtenidos durante la etapa de investigación preliminar:\n\n${prev.analisis.fundamentacion || 'Sin fundamentación registrada.'}\n\nPor tanto, y considerando que los hechos descritos podrían constituir una infracción a los deberes y obligaciones funcionarias, solicito a Ud. tenga a bien ordenar la instrucción del respectivo procedimiento disciplinario para determinar las eventuales responsabilidades administrativas que correspondan.\n\nAtentamente,\n\n___________________________________\n${prev.investigador?.nombre || ''}\n${prev.perfil || ''}`;
+                                }
+                                return { 
+                                    ...prev, 
+                                    analisis: { 
+                                        ...prev.analisis, 
+                                        solicitudSumaria: checked,
+                                        textoSumario: newTexto
+                                    } 
+                                };
+                            });
+                        }}
+                    />
+                    <label htmlFor="solicitudSumaria" className="text-sm font-bold text-gray-800 cursor-pointer">
+                        Solicitud de investigación sumaria al alcalde Don Jorge Radonich Barra
+                    </label>
+                </div>
+                <p className="text-xs text-gray-500 mt-2 ml-8">
+                    Marque esta opción si los antecedentes ameritan elevar los antecedentes para la instrucción de un sumario administrativo o investigación sumaria por parte de la máxima autoridad comunal.
+                </p>
+                {formData.analisis.solicitudSumaria && (
+                    <div className="mt-6 ml-8">
+                        <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Borrador de Solicitud</label>
+                        <textarea 
+                            className="w-full p-4 text-sm border rounded-xl bg-gray-50 leading-relaxed h-96"
+                            value={formData.analisis.textoSumario || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, analisis: { ...prev.analisis, textoSumario: e.target.value } }))}
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );

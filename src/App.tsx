@@ -75,10 +75,14 @@ export default function App() {
             <div class="p-8 font-serif">
                 <div class="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-6">
                     <img src="/logo.png" onerror="this.onerror=null;this.src='https://placehold.co/150x150/white/black?text=LOGO+DAEM';" alt="Logo DAEM" class="h-20 object-contain grayscale">
-                    <div class="text-right">
-                        <p class="text-xs font-bold">REPUBLICA DE CHILE</p>
-                        <p class="text-xs font-bold">DAEM CAÑETE</p>
-                    </div>
+                </div>
+                <div class="text-right mb-8">
+                    <p class="font-bold">CAÑETE, ${new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                </div>
+                <div class="mb-8">
+                    <p><b>A :</b> ${nombreTestigo}</p>
+                    <p><b>DE :</b> ${formData.investigador.nombre}</p>
+                    <hr class="border-t border-black mt-2">
                 </div>
                 <div class="text-center">
                     <h2 class="text-xl font-black uppercase mt-4">Acta Oficial de Entrevista - Ley N° 21.643</h2>
@@ -105,6 +109,17 @@ export default function App() {
                     <div class="border-t border-gray-800 pt-2 text-center text-xs w-2/5">
                         <b>FIRMA DECLARANTE</b><br>${nombreTestigo || 'Nombre y RUN'}
                     </div>
+                </div>
+
+                <div class="mt-24 flex h-2 w-full">
+                    <div class="bg-green-500 w-1/3"></div>
+                    <div class="bg-orange-400 w-1/3"></div>
+                    <div class="bg-blue-500 w-1/3"></div>
+                </div>
+                <div class="flex justify-between text-[10px] mt-1 text-gray-600">
+                    <span>Arturo Prat 220, 3er. Piso</span>
+                    <span>Fono 41 2758600</span>
+                    <span>direccion@daemcanete.cl</span>
                 </div>
             </div>
         `;
@@ -138,7 +153,7 @@ export default function App() {
                             {currentStep === 1 && <StepDenuncia formData={formData} setFormData={setFormData} />}
                             {currentStep === 2 && <StepInvestigacion formData={formData} setFormData={setFormData} onPrintActa={handlePrintActa} onPrintCitacion={triggerPrint} />}
                             {currentStep === 3 && <StepAnalisis formData={formData} setFormData={setFormData} />}
-                            {currentStep === 4 && <StepInforme formData={formData} onPrintInforme={triggerPrint} />}
+                            {currentStep === 4 && <StepInforme formData={formData} setFormData={setFormData} onPrintInforme={triggerPrint} />}
                         </div>
 
                         <div className="p-4 bg-gray-50 border-t flex justify-between items-center no-print">

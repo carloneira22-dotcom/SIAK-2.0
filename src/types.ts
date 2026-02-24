@@ -58,5 +58,8 @@ export interface FormData {
     conclusion: string;
     fundamentacion: string;
     medidaPropuesta: string;
+    solicitudSumaria?: boolean;
+    textoSumario?: string;
+    idDoc?: string;
   };
 }

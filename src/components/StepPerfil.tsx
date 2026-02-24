@@ -1,5 +1,5 @@
 import React from 'react';
-import { PERFILES } from '../constants';
+import { PERFILES, INVESTIGADORES_AUTORIZADOS } from '../constants';
 import { FormData } from '../types';
 
 interface StepPerfilProps {
@@ -22,6 +22,33 @@ export function StepPerfil({ formData, setFormData }: StepPerfilProps) {
 
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
                 <h3 className="font-bold text-gray-800 mb-4 border-b pb-2">1. Datos del Investigador/a</h3>
+                
+                <div className="mb-6 bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <label className="text-xs font-bold text-blue-800 uppercase block mb-2">Seleccionar Investigador Autorizado (Opcional)</label>
+                    <select 
+                        className="w-full p-2 border border-blue-300 rounded-lg text-sm bg-white"
+                        onChange={(e) => {
+                            const selected = INVESTIGADORES_AUTORIZADOS.find(inv => inv.nombre === e.target.value);
+                            if (selected) {
+                                setFormData(prev => ({
+                                    ...prev,
+                                    investigador: {
+                                        nombre: selected.nombre,
+                                        rut: selected.rut,
+                                        email: selected.email || prev.investigador?.email || ''
+                                    }
+                                }));
+                            }
+                        }}
+                        value={INVESTIGADORES_AUTORIZADOS.find(inv => inv.nombre === formData.investigador?.nombre)?.nombre || ""}
+                    >
+                        <option value="">-- Seleccione un investigador o ingrese los datos manualmente --</option>
+                        {INVESTIGADORES_AUTORIZADOS.map(inv => (
+                            <option key={inv.nombre} value={inv.nombre}>{inv.nombre} {inv.rut ? `(${inv.rut})` : ''}</option>
+                        ))}
+                    </select>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2">
                         <label className="text-xs font-bold text-gray-500 uppercase">Nombre Completo</label>
