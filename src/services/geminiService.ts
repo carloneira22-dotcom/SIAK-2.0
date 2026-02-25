@@ -30,12 +30,15 @@ export async function redactarCitacion(testigo: string, tipoDenuncia: string, pe
         }
     });
 
-    const jsonStr = response.text?.trim() || "{}";
+    let jsonStr = response.text?.trim() || "{}";
+    if (jsonStr.startsWith('```')) {
+        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+    }
     try {
         const result = JSON.parse(jsonStr);
         return result.citacion_html || "";
     } catch (e) {
-        console.error("Error parsing JSON from Gemini:", e);
+        console.error("Error parsing JSON from Gemini:", e, jsonStr);
         return "";
     }
 }
@@ -66,12 +69,15 @@ export async function redactarDerivacionACHS(victimaNombre: string, rut: string,
         }
     });
 
-    const jsonStr = response.text?.trim() || "{}";
+    let jsonStr = response.text?.trim() || "{}";
+    if (jsonStr.startsWith('```')) {
+        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+    }
     try {
         const result = JSON.parse(jsonStr);
         return result.derivacion_html || "";
     } catch (e) {
-        console.error("Error parsing JSON from Gemini:", e);
+        console.error("Error parsing JSON from Gemini:", e, jsonStr);
         return "";
     }
 }
@@ -109,12 +115,15 @@ export async function redactarOficioSeparacion(
         }
     });
 
-    const jsonStr = response.text?.trim() || "{}";
+    let jsonStr = response.text?.trim() || "{}";
+    if (jsonStr.startsWith('```')) {
+        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+    }
     try {
         const result = JSON.parse(jsonStr);
         return result.oficio_html || "";
     } catch (e) {
-        console.error("Error parsing JSON from Gemini:", e);
+        console.error("Error parsing JSON from Gemini:", e, jsonStr);
         return "";
     }
 }
@@ -145,12 +154,15 @@ export async function generarPreguntas(relato: string, tipo: string, rol: string
         }
     });
 
-    const jsonStr = response.text?.trim() || "{}";
+    let jsonStr = response.text?.trim() || "{}";
+    if (jsonStr.startsWith('```')) {
+        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+    }
     try {
         const result = JSON.parse(jsonStr);
         return result.preguntas || [];
     } catch (e) {
-        console.error("Error parsing JSON from Gemini:", e);
+        console.error("Error parsing JSON from Gemini:", e, jsonStr);
         return [];
     }
 }
@@ -200,7 +212,10 @@ export async function analizarCaso(tipo: string, relato: string, entrevistas: { 
         }
     });
 
-    const jsonStr = response.text?.trim() || "{}";
+    let jsonStr = response.text?.trim() || "{}";
+    if (jsonStr.startsWith('```')) {
+        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+    }
     try {
         const result = JSON.parse(jsonStr);
         return {
@@ -208,7 +223,7 @@ export async function analizarCaso(tipo: string, relato: string, entrevistas: { 
             fundamentacion: result.fundamentacion_redactada || ""
         };
     } catch (e) {
-        console.error("Error parsing JSON from Gemini:", e);
+        console.error("Error parsing JSON from Gemini:", e, jsonStr);
         return { conclusion: "Antecedentes Insuficientes", fundamentacion: "Error al generar análisis." };
     }
 }

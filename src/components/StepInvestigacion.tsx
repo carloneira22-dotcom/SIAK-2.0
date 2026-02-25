@@ -131,6 +131,43 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                         textoDerivacion: html
                     }
                 }));
+                
+                const htmlImprimir = `
+                    <div class="p-8 font-serif">
+                        <div class="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-6">
+                            <img src="/logo.png" onerror="this.onerror=null;this.src='https://placehold.co/150x150/white/black?text=LOGO+DAEM';" alt="Logo DAEM" class="h-20 object-contain grayscale">
+                        </div>
+                        <div class="text-right mb-8">
+                            <p class="font-bold">CAÑETE, ${new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                        </div>
+                        <div class="mb-8">
+                            <p><b>A :</b> Unidad de Prevención de Riesgos ACHS/MUTUAL</p>
+                            <p><b>DE :</b> ${formData.investigador.nombre}</p>
+                            <hr class="border-t border-black mt-2">
+                        </div>
+                        <h2 class="text-xl font-black uppercase mt-4 text-center mb-8">Derivación a Unidad de Prevención de Riesgos</h2>
+                        <div class="text-justify leading-relaxed text-sm whitespace-pre-line">
+                            ${html}
+                        </div>
+                        <div class="mt-24 text-xs">
+                            <p class="font-bold">DISTRIBUCIÓN:</p>
+                            <p>- Unidad de Personal</p>
+                            <p>- Prevencionista de riesgos</p>
+                            ${formData.investigacion.idDocDerivacion ? `<p class="mt-4 font-bold">ID DOC: ${formData.investigacion.idDocDerivacion}</p>` : ''}
+                        </div>
+                        <div class="mt-12 flex h-2 w-full">
+                            <div class="bg-green-500 w-1/3"></div>
+                            <div class="bg-orange-400 w-1/3"></div>
+                            <div class="bg-blue-500 w-1/3"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] mt-1 text-gray-600">
+                            <span>Arturo Prat 220, 3er. Piso</span>
+                            <span>Fono 41 2758600</span>
+                            <span>direccion@daemcanete.cl</span>
+                        </div>
+                    </div>
+                `;
+                onPrintCitacion(htmlImprimir);
             } else {
                 setErrorMessage("SIAK: No se pudo generar la derivación. Intente nuevamente.");
             }
@@ -356,25 +393,17 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                                 disabled={isGeneratingDerivacion || !formData.victima?.nombre}
                                 className={`w-full bg-rose-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-rose-700 transition-colors shadow-sm flex items-center justify-center gap-2 ${isGeneratingDerivacion ? 'opacity-50 cursor-not-allowed pulse-ia' : ''}`}
                             >
-                                ✨ {isGeneratingDerivacion ? 'Redactando derivación...' : 'Generar Redacción de Derivación (IA)'}
+                                ✨ {isGeneratingDerivacion ? 'Redactando derivación...' : 'Generar Oficio de Derivación a Prevención de Riesgos'}
                             </button>
                             {!formData.victima?.nombre && <p className="text-xs text-red-500 mt-1">Debe registrar el nombre de la víctima en el paso anterior.</p>}
                             
                             {formData.investigacion.textoDerivacion && (
-                                <div className="mt-4">
-                                    <label className="text-xs font-bold text-slate-500 uppercase">Borrador del Oficio (Editable)</label>
-                                    <textarea
-                                        className="w-full p-3 mt-1 text-sm border border-slate-300 rounded-lg bg-white h-40"
-                                        value={formData.investigacion.textoDerivacion}
-                                        onChange={(e) => setFormData(prev => ({ ...prev, investigacion: { ...prev.investigacion, textoDerivacion: e.target.value } }))}
-                                    />
-                                    <button 
-                                        onClick={handlePrintDerivacion} 
-                                        className="w-full mt-2 bg-gray-800 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-black transition-colors shadow-sm flex items-center justify-center gap-2"
-                                    >
-                                        🖨️ Imprimir Oficio de Derivación
-                                    </button>
-                                </div>
+                                <button 
+                                    onClick={handlePrintDerivacion} 
+                                    className="w-full mt-4 bg-gray-800 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-black transition-colors shadow-sm flex items-center justify-center gap-2"
+                                >
+                                    🖨️ Volver a Imprimir Oficio de Derivación
+                                </button>
                             )}
                         </div>
                     )}
