@@ -206,7 +206,9 @@ export const INITIAL_FORM_DATA: FormData = {
         separacionNuevaFuncion: '',
         preguntasSugeridas: [],
         respuestasGenerales: {},
-        entrevistas: {}
+        entrevistas: {},
+        idDocDerivacion: '',
+        textoDerivacion: ''
     },
     analisis: {
         conclusion: '',

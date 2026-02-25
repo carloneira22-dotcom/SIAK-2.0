@@ -53,6 +53,8 @@ export interface FormData {
     preguntasSugeridas: string[];
     respuestasGenerales: Record<number, string>;
     entrevistas: Record<string, { preguntas: string[], respuestas: Record<number, string> }>;
+    idDocDerivacion?: string;
+    textoDerivacion?: string;
   };
   analisis: {
     conclusion: string;
