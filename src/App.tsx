@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import DOMPurify from 'dompurify';
 import { Header } from './components/Header';
 import { Stepper } from './components/Stepper';
 import { StepPerfil } from './components/StepPerfil';
@@ -140,7 +141,7 @@ export default function App() {
                         <button onClick={() => window.print()} className="bg-blue-600 text-white px-4 py-2 rounded shadow font-bold hover:bg-blue-700">🖨️ Imprimir</button>
                         <button onClick={() => setPrintContent(null)} className="bg-gray-600 text-white px-4 py-2 rounded shadow font-bold hover:bg-gray-700">❌ Cerrar Vista</button>
                     </div>
-                    <div id="print-area" dangerouslySetInnerHTML={{ __html: printContent }} />
+                    <div id="print-area" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(printContent) }} />
                 </div>
             ) : (
                 <div className="max-w-5xl mx-auto" id="main-wrapper">

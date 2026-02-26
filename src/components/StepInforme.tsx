@@ -1,4 +1,5 @@
 import React from 'react';
+import DOMPurify from 'dompurify';
 import { FormData } from '../types';
 
 interface StepInformeProps {
@@ -146,7 +147,7 @@ export function StepInforme({ formData, setFormData, onPrintInforme }: StepInfor
                 />
                 <p className="text-xs text-blue-700 mt-1">Ingrese el ID DOC si desea que aparezca en el informe impreso.</p>
             </div>
-            <div dangerouslySetInnerHTML={{ __html: informeHTML }} />
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(informeHTML) }} />
             <div className="mt-8 text-center no-print flex flex-col md:flex-row justify-center gap-4">
                 <button 
                     onClick={() => onPrintInforme(informeHTML)} 

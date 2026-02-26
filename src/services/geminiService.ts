@@ -1,8 +1,21 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 const SYSTEM_INSTRUCTION = "Eres SIAK, sistema formal de levantamiento de denuncias y herramienta de apoyo técnico a la gestión investigativa de Ley Karin 21.643 del DAEM. Reglas: Mantener lenguaje formal, técnico y neutral. No emitir juicios personales, No prejuzgar, No suponer hechos no acreditados. SIAK formula propuesta técnica, no ejecuta sanción.";
+
+function parseGeminiResponse<T>(response: GenerateContentResponse, fallback: T): T {
+    let jsonStr = response.text?.trim() || "{}";
+    if (jsonStr.startsWith('```')) {
+        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+    }
+    try {
+        return JSON.parse(jsonStr) as T;
+    } catch (e) {
+        console.error("Error parsing JSON from Gemini:", e, jsonStr);
+        return fallback;
+    }
+}
 
 export async function redactarCitacion(testigo: string, tipoDenuncia: string, perfil: string, fecha: string, hora: string, lugar: string, rol: string): Promise<string> {
     const prompt = `Redacta una citación formal, administrativa y estrictamente confidencial dirigida al funcionario/a: "${testigo}". 
@@ -30,17 +43,8 @@ export async function redactarCitacion(testigo: string, tipoDenuncia: string, pe
         }
     });
 
-    let jsonStr = response.text?.trim() || "{}";
-    if (jsonStr.startsWith('```')) {
-        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
-    }
-    try {
-        const result = JSON.parse(jsonStr);
-        return result.citacion_html || "";
-    } catch (e) {
-        console.error("Error parsing JSON from Gemini:", e, jsonStr);
-        return "";
-    }
+    const result = parseGeminiResponse<{ citacion_html?: string }>(response, {});
+    return result.citacion_html || "";
 }
 
 export async function redactarDerivacionACHS(victimaNombre: string, rut: string, establecimiento: string, tipoDenuncia: string, perfil: string): Promise<string> {
@@ -69,17 +73,8 @@ export async function redactarDerivacionACHS(victimaNombre: string, rut: string,
         }
     });
 
-    let jsonStr = response.text?.trim() || "{}";
-    if (jsonStr.startsWith('```')) {
-        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
-    }
-    try {
-        const result = JSON.parse(jsonStr);
-        return result.derivacion_html || "";
-    } catch (e) {
-        console.error("Error parsing JSON from Gemini:", e, jsonStr);
-        return "";
-    }
+    const result = parseGeminiResponse<{ derivacion_html?: string }>(response, {});
+    return result.derivacion_html || "";
 }
 
 export async function redactarOficioSeparacion(
@@ -115,17 +110,8 @@ export async function redactarOficioSeparacion(
         }
     });
 
-    let jsonStr = response.text?.trim() || "{}";
-    if (jsonStr.startsWith('```')) {
-        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
-    }
-    try {
-        const result = JSON.parse(jsonStr);
-        return result.oficio_html || "";
-    } catch (e) {
-        console.error("Error parsing JSON from Gemini:", e, jsonStr);
-        return "";
-    }
+    const result = parseGeminiResponse<{ oficio_html?: string }>(response, {});
+    return result.oficio_html || "";
 }
 
 export async function generarPreguntas(relato: string, tipo: string, rol: string): Promise<string[]> {
@@ -154,17 +140,8 @@ export async function generarPreguntas(relato: string, tipo: string, rol: string
         }
     });
 
-    let jsonStr = response.text?.trim() || "{}";
-    if (jsonStr.startsWith('```')) {
-        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
-    }
-    try {
-        const result = JSON.parse(jsonStr);
-        return result.preguntas || [];
-    } catch (e) {
-        console.error("Error parsing JSON from Gemini:", e, jsonStr);
-        return [];
-    }
+    const result = parseGeminiResponse<{ preguntas?: string[] }>(response, {});
+    return result.preguntas || [];
 }
 
 export async function analizarCaso(tipo: string, relato: string, entrevistas: { rol: string, preguntas: string[], respuestas: Record<number, string> }[]): Promise<{ conclusion: string, fundamentacion: string }> {
@@ -212,18 +189,9 @@ export async function analizarCaso(tipo: string, relato: string, entrevistas: { 
         }
     });
 
-    let jsonStr = response.text?.trim() || "{}";
-    if (jsonStr.startsWith('```')) {
-        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
-    }
-    try {
-        const result = JSON.parse(jsonStr);
-        return {
-            conclusion: result.conclusion || "Antecedentes Insuficientes",
-            fundamentacion: result.fundamentacion_redactada || ""
-        };
-    } catch (e) {
-        console.error("Error parsing JSON from Gemini:", e, jsonStr);
-        return { conclusion: "Antecedentes Insuficientes", fundamentacion: "Error al generar análisis." };
-    }
+    const result = parseGeminiResponse<{ conclusion?: string, fundamentacion_redactada?: string }>(response, {});
+    return {
+        conclusion: result.conclusion || "Antecedentes Insuficientes",
+        fundamentacion: result.fundamentacion_redactada || "Error al generar análisis."
+    };
 }
