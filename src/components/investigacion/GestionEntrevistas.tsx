@@ -116,6 +116,67 @@ export function GestionEntrevistas({ formData, setFormData, onPrintActa, onPrint
         }
     };
 
+    const handlePrintConsentimiento = () => {
+        if (!sujetoActivo.nombre) {
+            setErrorMessage("SIAK: El sujeto seleccionado no tiene nombre registrado para generar el consentimiento.");
+            return;
+        }
+        setErrorMessage('');
+        
+        const htmlImprimir = `
+            <div class="p-8 font-serif">
+                <div class="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-6">
+                    <img src="/logo.png" onerror="this.onerror=null;this.src='https://placehold.co/150x150/white/black?text=LOGO+DAEM';" alt="Logo DAEM" class="h-20 object-contain grayscale">
+                </div>
+                <div class="text-right mb-8">
+                    <p class="font-bold">CAÑETE, ${new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                </div>
+                <h2 class="text-xl font-black uppercase mt-4 text-center mb-8">ACTA DE CONSENTIMIENTO INFORMADO Y AUTORIZACIÓN DE USO DE PLATAFORMA SIAK</h2>
+                <div class="text-justify leading-relaxed text-sm space-y-4">
+                    <p>En el marco del procedimiento de investigación administrativa regulado por la <b>Ley N° 21.643 (Ley Karin)</b>, que modifica el Código del Trabajo y otros cuerpos legales en materia de prevención, investigación y sanción del acoso laboral, sexual o de violencia en el trabajo.</p>
+                    
+                    <p>Quien suscribe, <b>${sujetoActivo.nombre}</b>, en calidad de <b>${sujetoActivo.rol}</b>, declara haber sido informado/a por el/la Investigador/a designado/a, don/doña <b>${formData.investigador.nombre || '___________________________'}</b>, sobre el uso de la plataforma de asistencia técnica <b>SIAK</b> para el registro, procesamiento y análisis de la presente entrevista.</p>
+
+                    <p>Por el presente acto, <b>AUTORIZO</b> expresamente el uso de dicha plataforma, entendiendo y aceptando las siguientes condiciones y resguardos éticos:</p>
+
+                    <ul class="list-disc pl-8 space-y-2">
+                        <li><b>Confidencialidad Estricta:</b> Los datos proporcionados y registrados en la plataforma SIAK están amparados por el principio de estricta reserva y confidencialidad exigido por la normativa vigente.</li>
+                        <li><b>Uso Exclusivo:</b> La información será utilizada única y exclusivamente para los fines de la presente investigación administrativa, no pudiendo ser compartida, difundida ni utilizada para fines ajenos al proceso.</li>
+                        <li><b>Asistencia Técnica:</b> Comprendo que SIAK es una herramienta de apoyo técnico a la gestión investigativa, y que las conclusiones y propuestas finales son de exclusiva responsabilidad y criterio del Investigador/a designado/a.</li>
+                        <li><b>No Revictimización:</b> El uso de esta herramienta busca agilizar el proceso y estructurar la información de manera objetiva, velando siempre por el principio de no revictimización y el respeto a la dignidad de las personas involucradas.</li>
+                    </ul>
+
+                    <p>Para constancia y en señal de conformidad con lo expuesto, firman los comparecientes:</p>
+                </div>
+
+                <div class="mt-32 flex justify-around text-center text-sm">
+                    <div>
+                        <hr class="border-t border-black w-48 mx-auto mb-2">
+                        <p class="font-bold">${sujetoActivo.nombre}</p>
+                        <p>${sujetoActivo.rol}</p>
+                    </div>
+                    <div>
+                        <hr class="border-t border-black w-48 mx-auto mb-2">
+                        <p class="font-bold">${formData.investigador.nombre || 'Nombre del Investigador'}</p>
+                        <p>Investigador/a Designado/a</p>
+                    </div>
+                </div>
+
+                <div class="mt-24 flex h-2 w-full">
+                    <div class="bg-green-500 w-1/3"></div>
+                    <div class="bg-orange-400 w-1/3"></div>
+                    <div class="bg-blue-500 w-1/3"></div>
+                </div>
+                <div class="flex justify-between text-[10px] mt-1 text-gray-600">
+                    <span>Arturo Prat 220, 3er. Piso</span>
+                    <span>Fono 41 2758600</span>
+                    <span>direccion@daemcanete.cl</span>
+                </div>
+            </div>
+        `;
+        onPrintCitacion(htmlImprimir);
+    };
+
     const guardarRespuesta = (index: number, valor: string) => {
         setFormData(prev => ({
             ...prev,
@@ -201,13 +262,21 @@ export function GestionEntrevistas({ formData, setFormData, onPrintActa, onPrint
                     <h4 className="font-bold text-indigo-900 flex items-center gap-2">
                         <span>🎙️</span> Entrevista a {sujetoActivo.rol}
                     </h4>
-                    <button 
-                        onClick={handleGenerarPreguntas}
-                        disabled={isGeneratingPreguntas || !formData.hechos.relato}
-                        className={`bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700 transition-colors shadow-sm flex items-center gap-2 ${isGeneratingPreguntas ? 'opacity-50 cursor-not-allowed pulse-ia' : ''}`}
-                    >
-                        ✨ {isGeneratingPreguntas ? 'Analizando relato...' : 'Sugerir Preguntas Clave'}
-                    </button>
+                    <div className="flex gap-2 flex-wrap justify-end">
+                        <button 
+                            onClick={handlePrintConsentimiento}
+                            className="bg-teal-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-teal-700 transition-colors shadow-sm flex items-center gap-2"
+                        >
+                            📄 Consentimiento SIAK
+                        </button>
+                        <button 
+                            onClick={handleGenerarPreguntas}
+                            disabled={isGeneratingPreguntas || !formData.hechos.relato}
+                            className={`bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700 transition-colors shadow-sm flex items-center gap-2 ${isGeneratingPreguntas ? 'opacity-50 cursor-not-allowed pulse-ia' : ''}`}
+                        >
+                            ✨ {isGeneratingPreguntas ? 'Analizando relato...' : 'Sugerir Preguntas Clave'}
+                        </button>
+                    </div>
                 </div>
                 
                 {!formData.hechos.relato && (
