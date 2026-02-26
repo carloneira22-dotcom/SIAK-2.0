@@ -23,6 +23,8 @@ export function GestionEntrevistas({ formData, setFormData, onPrintActa, onPrint
 
     const sujetoActivo = sujetos.find(s => s.id === sujetoActivoId) || sujetos[0];
     const entrevistaActual = formData.investigacion.entrevistas[sujetoActivo.id] || { preguntas: [], respuestas: {} };
+    // Ensure preguntas is always an array to prevent .map() from crashing
+    const preguntas = Array.isArray(entrevistaActual.preguntas) ? entrevistaActual.preguntas : [];
 
     const handleGenerarCitacion = async () => {
         if (!sujetoActivo.nombre) {
@@ -98,7 +100,8 @@ export function GestionEntrevistas({ formData, setFormData, onPrintActa, onPrint
                             ...prev.investigacion.entrevistas,
                             [sujetoActivo.id]: {
                                 ...prev.investigacion.entrevistas[sujetoActivo.id],
-                                preguntas: pregs
+                                preguntas: pregs,
+                                respuestas: prev.investigacion.entrevistas[sujetoActivo.id]?.respuestas || {}
                             }
                         }
                     }
@@ -214,28 +217,28 @@ export function GestionEntrevistas({ formData, setFormData, onPrintActa, onPrint
                 )}
 
                 <div className="space-y-4">
-                    {entrevistaActual.preguntas.map((p, i) => (
+                    {preguntas.map((p, i) => (
                         <div key={i} className="bg-white p-4 rounded-lg border border-indigo-100 shadow-sm">
                             <p className="text-sm font-bold text-indigo-900 mb-2">P{i+1}: {p}</p>
                             <textarea 
                                 className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
                                 rows={3}
                                 placeholder="Registre la respuesta textual del entrevistado aquí..."
-                                value={entrevistaActual.respuestas[i] || ''}
+                                value={entrevistaActual.respuestas?.[i] || ''}
                                 onChange={(e) => guardarRespuesta(i, e.target.value)}
                             ></textarea>
                         </div>
                     ))}
-                    {entrevistaActual.preguntas.length === 0 && (
+                    {preguntas.length === 0 && (
                         <div className="text-center py-8 bg-white rounded-lg border border-dashed border-indigo-200">
                             <p className="text-sm text-indigo-400">Haga clic en "Sugerir Preguntas Clave" para que SIAK analice el caso y formule las preguntas.</p>
                         </div>
                     )}
                 </div>
 
-                {entrevistaActual.preguntas.length > 0 && (
+                {preguntas.length > 0 && (
                     <button 
-                        onClick={() => onPrintActa(sujetoActivo.nombre || 'Sin nombre', entrevistaActual.preguntas, entrevistaActual.respuestas)}
+                        onClick={() => onPrintActa(sujetoActivo.nombre || 'Sin nombre', preguntas, entrevistaActual.respuestas || {})}
                         className="w-full mt-6 bg-gray-800 text-white px-4 py-3 rounded-lg text-sm font-bold hover:bg-black transition-colors shadow-sm flex items-center justify-center gap-2"
                     >
                         🖨️ Imprimir Acta de Entrevista
