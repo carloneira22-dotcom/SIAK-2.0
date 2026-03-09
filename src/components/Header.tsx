@@ -1,20 +1,26 @@
 import React from 'react';
 import { Scale } from 'lucide-react';
+import { AppContext } from '../App';
 
 interface HeaderProps {
     diasInfo: { transcurridos: number, restantes: number, estado: 'ok' | 'warning' | 'danger' | 'overdue' } | null;
+    appContext?: AppContext | null;
 }
 
-export function Header({ diasInfo }: HeaderProps) {
+export function Header({ diasInfo, appContext }: HeaderProps) {
+    const comunaText = appContext?.comuna || "CAÑETE";
+    const sectorText = appContext?.sector || "DAEM";
+    const shortSector = sectorText.replace("Ley Karin en ", "").toUpperCase();
+
     return (
         <header className="flex flex-col md:flex-row justify-between items-center mb-6 bg-white p-6 rounded-xl shadow-sm border border-slate-200 no-print">
             <div className="flex items-center gap-4">
-                <img src="/logo.png" onError={(e) => { e.currentTarget.src = 'https://placehold.co/150x150/0f766e/white?text=LOGO+DAEM'; }} alt="Logo DAEM Cañete" className="h-16 w-16 object-contain rounded-lg border border-slate-100 shadow-sm" referrerPolicy="no-referrer" />
+                <img src="/logo.png" onError={(e) => { e.currentTarget.src = `https://placehold.co/150x150/0f766e/white?text=LOGO+${shortSector}`; }} alt={`Logo ${shortSector} ${comunaText}`} className="h-16 w-16 object-contain rounded-lg border border-slate-100 shadow-sm" referrerPolicy="no-referrer" />
                 <div className="bg-teal-800 p-4 rounded-xl text-white shadow-inner hidden sm:flex items-center justify-center">
                     <Scale size={24} />
                 </div>
                 <div>
-                    <h1 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">SIAK <span className="text-teal-700 font-bold">DAEM CAÑETE</span></h1>
+                    <h1 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">SIAK <span className="text-teal-700 font-bold">{shortSector} {comunaText.toUpperCase()}</span></h1>
                 </div>
             </div>
             <div className="hidden md:flex items-center gap-6 text-right border-l-2 border-gray-100 pl-4">

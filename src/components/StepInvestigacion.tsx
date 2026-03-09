@@ -3,6 +3,7 @@ import { FormData } from '../types';
 import { MedidasResguardo } from './investigacion/MedidasResguardo';
 import { NominaTestigos } from './investigacion/NominaTestigos';
 import { GestionEntrevistas } from './investigacion/GestionEntrevistas';
+import { UploadEvidencias } from './investigacion/UploadEvidencias';
 
 interface StepInvestigacionProps {
     formData: FormData;
@@ -42,13 +43,17 @@ export function StepInvestigacion({ formData, setFormData, onPrintActa, onPrintC
                     />
                 </div>
                 
-                <div className="lg:col-span-2">
+                <div className="lg:col-span-2 space-y-6">
                     <GestionEntrevistas 
                         formData={formData} 
                         setFormData={setFormData} 
                         onPrintActa={onPrintActa} 
                         onPrintCitacion={onPrintCitacion} 
                         setErrorMessage={setErrorMessage} 
+                    />
+                    <UploadEvidencias 
+                        formData={formData} 
+                        setFormData={setFormData} 
                     />
                 </div>
             </div>

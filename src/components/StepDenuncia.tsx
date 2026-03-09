@@ -6,9 +6,10 @@ import { Search } from 'lucide-react';
 interface StepDenunciaProps {
     formData: FormData;
     setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+    onPrintDenuncia: () => void;
 }
 
-export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
+export function StepDenuncia({ formData, setFormData, onPrintDenuncia }: StepDenunciaProps) {
     const handleAutoFill = (value: string, tipo: 'victima' | 'tercero' | 'denunciado') => {
         const func = FUNCIONARIOS.find(f => f.nombre === value);
         if (func) {
@@ -44,8 +45,17 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
         }
     };
 
-    const setConducta = (tipo: string) => {
-        setFormData(prev => ({ ...prev, hechos: { ...prev.hechos, tipo } }));
+    const toggleConducta = (tipo: string) => {
+        setFormData(prev => {
+            const currentTipos = prev.hechos.tipo ? prev.hechos.tipo.split(', ').filter(t => t.trim() !== '') : [];
+            let newTipos;
+            if (currentTipos.includes(tipo)) {
+                newTipos = currentTipos.filter(t => t !== tipo);
+            } else {
+                newTipos = [...currentTipos, tipo];
+            }
+            return { ...prev, hechos: { ...prev.hechos, tipo: newTipos.join(', ') } };
+        });
     };
 
     const setQuienDenuncia = (quien: 'Victima' | 'Tercero') => {
@@ -63,9 +73,14 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                     <h3 className="font-bold text-blue-900">📝 ACTA DE DENUNCIA DE VIOLENCIA EN EL TRABAJO, ACOSO LABORAL O SEXUAL DAEM CAÑETE</h3>
                     <p className="text-sm text-blue-800 mt-1">Llenado por el investigador según instructivo DAEM.</p>
                 </div>
-                <button onClick={() => window.print()} className="bg-blue-600 text-white px-4 py-2 rounded shadow font-bold hover:bg-blue-700 text-sm no-print">
-                    🖨️ Imprimir Acta en Blanco
-                </button>
+                <div className="flex gap-2 no-print">
+                    <button onClick={onPrintDenuncia} className="bg-indigo-600 text-white px-4 py-2 rounded shadow font-bold hover:bg-indigo-700 text-sm">
+                        🖨️ Imprimir Acta Llenada
+                    </button>
+                    <button onClick={() => window.print()} className="bg-blue-600 text-white px-4 py-2 rounded shadow font-bold hover:bg-blue-700 text-sm">
+                        🖨️ Imprimir Acta en Blanco
+                    </button>
+                </div>
             </div>
 
             <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
@@ -93,17 +108,20 @@ export function StepDenuncia({ formData, setFormData }: StepDenunciaProps) {
                 <div className="mb-6">
                     <label className="text-sm font-bold text-gray-700 block mb-2">Indique tipo de denuncia:</label>
                     <div className="flex flex-wrap gap-3">
-                        {['Acoso Sexual', 'Acoso Laboral', 'Violencia en el trabajo'].map(tipo => (
-                            <button 
-                                key={tipo}
-                                onClick={() => setConducta(tipo)} 
-                                className={`px-4 py-2 rounded-lg text-sm font-bold border transition-colors ${
-                                    formData.hechos.tipo === tipo ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                }`}
-                            >
-                                {tipo}
-                            </button>
-                        ))}
+                        {['Acoso Sexual', 'Acoso Laboral', 'Violencia en el trabajo'].map(tipo => {
+                            const isSelected = formData.hechos.tipo ? formData.hechos.tipo.split(', ').filter(t => t.trim() !== '').includes(tipo) : false;
+                            return (
+                                <button 
+                                    key={tipo}
+                                    onClick={() => toggleConducta(tipo)} 
+                                    className={`px-4 py-2 rounded-lg text-sm font-bold border transition-colors ${
+                                        isSelected ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                    }`}
+                                >
+                                    {tipo}
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
 

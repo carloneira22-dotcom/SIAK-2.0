@@ -208,7 +208,8 @@ export const INITIAL_FORM_DATA: FormData = {
         respuestasGenerales: {},
         entrevistas: {},
         idDocDerivacion: '',
-        textoDerivacion: ''
+        textoDerivacion: '',
+        evidencias: []
     },
     analisis: {
         conclusion: '',
